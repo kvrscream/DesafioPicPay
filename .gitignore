@@ -1,0 +1,6 @@
+# Paths
+/obj
+/bin
+
+# Files
+app.db
