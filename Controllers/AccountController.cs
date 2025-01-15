@@ -1,5 +1,6 @@
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
+using estudoRepository.dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -43,7 +44,7 @@ namespace estudoRepository.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(AccountModel account) 
+    public async Task<IActionResult> Add(AccountDTO account) 
     {
       try 
       {
@@ -56,7 +57,7 @@ namespace estudoRepository.Controllers
     }
 
     [HttpPatch]
-    public async Task<IActionResult> Update(AccountModel account) 
+    public async Task<IActionResult> Update(AccountDTO account) 
     {
       try 
       {
@@ -68,12 +69,12 @@ namespace estudoRepository.Controllers
       }
     }
 
-    [HttpDelete]
-    public async Task<IActionResult> Delete(AccountModel account) 
+    [HttpDelete("id:int")]
+    public async Task<IActionResult> Delete(int id) 
     {
       try 
       {
-        return Ok(await _repository.Delete(account));
+        return Ok(await _repository.Delete(id));
       }
       catch (Exception ex)
       {

@@ -1,4 +1,5 @@
 using estudoRepository.Models;
+using estudoRepository.dtos;
 
 namespace estudoRepository.Interfaces
 {
@@ -6,8 +7,8 @@ namespace estudoRepository.Interfaces
   {
     Task<List<AccountModel>> GetAll();
     Task<AccountModel> GetById(int id);
-    Task<AccountModel> Add(AccountModel account);
-    Task<AccountModel> Update(AccountModel account);
-    Task<bool> Delete(AccountModel account);
+    Task<AccountModel> Add(AccountDTO account);
+    Task<AccountModel> Update(AccountDTO account);
+    Task<bool> Delete(int id);
   }
 }

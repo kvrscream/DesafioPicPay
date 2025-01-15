@@ -1,4 +1,5 @@
 using estudoRepository.Models;
+using estudoRepository.dtos;
 using estudoRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using estudoRepository.Context;
@@ -14,17 +15,19 @@ namespace estudoRepository.Repositories
       _context = context;
     }
 
-    public async Task<AccountModel> Add(AccountModel account)
+    public async Task<AccountModel> Add(AccountDTO account)
     {
         User user = await _context.Users.FirstOrDefaultAsync(f => f.Id == account.userModelId);
-        account.userModel = user;
+        AccountModel accountModel = new AccountModel();
+        accountModel = account;
+        accountModel.userModel = user;
 
-        await _context.Accounts.AddAsync(account);
+        await _context.Accounts.AddAsync(accountModel);
         await _context.SaveChangesAsync();
-        return account;
+        return accountModel;
     }
 
-    public async Task<bool> Delete(AccountModel account)
+    public async Task<bool> Delete(AccountDTO account)
     {
         _context.Accounts.Remove(account);
         return true;
@@ -41,9 +44,9 @@ namespace estudoRepository.Repositories
           Include(u => u.userModel).FirstOrDefaultAsync(f => f.Id == id);
     }
 
-    public async Task<AccountModel> Update(AccountModel account)
+    public async Task<AccountModel> Update(int id)
     {
-        AccountModel actualAccount = await this.GetById(id: account.Id);
+        AccountModel actualAccount = await this.GetById(id: id);
         if (actualAccount != null)
         {
           actualAccount.balance = account.balance;
