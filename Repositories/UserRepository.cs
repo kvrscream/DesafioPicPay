@@ -1,4 +1,5 @@
 using estudoRepository.Context;
+using estudoRepository.dtos;
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
 using Microsoft.EntityFrameworkCore;
@@ -26,12 +27,18 @@ namespace estudoRepository.Repositories
             }
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<User> AddUser(UserDTO user)
         {   
-            SelectUserType(user: user);
-            await _context.Users.AddAsync(user);
+            User userModel = new User() {
+                name = user.name,
+                email = user.email,
+                document = user.document
+            };
+
+            SelectUserType(user: userModel);
+            await _context.Users.AddAsync(userModel);
             await _context.SaveChangesAsync();
-            return user;
+            return userModel;
         }
 
         public async Task<bool> DeleteUser(int id)
@@ -56,7 +63,7 @@ namespace estudoRepository.Repositories
             return await _context.Users.FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public async Task<User> UpdateUser(User user)
+        public async Task<User> UpdateUser(UserDTO user)
         { 
             User data = await this.GetById(user.Id);
             

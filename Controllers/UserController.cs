@@ -1,3 +1,4 @@
+using estudoRepository.dtos;
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +43,7 @@ namespace estudoRepository.Controllers
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add([FromBody] User user)
+    public async Task<IActionResult> Add([FromBody] UserDTO user)
     {
       try
       {
@@ -55,7 +56,7 @@ namespace estudoRepository.Controllers
     }
 
     [HttpPatch]
-    public async Task<IActionResult> Update([FromBody] User user)
+    public async Task<IActionResult> Update([FromBody] UserDTO user)
     {
       try
       {
@@ -72,7 +73,7 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(_repository.DeleteUser(id: id));
+        return Ok(await _repository.DeleteUser(id: id));
       } 
       catch (Exception ex)
       {

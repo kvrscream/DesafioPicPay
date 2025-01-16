@@ -7,10 +7,13 @@ namespace estudoRepository.Models
   {
     public int Id { get; set; }
 
-    [Required(ErrorMessage = "Nome não pode ser vazio")]
+    [Required(ErrorMessage = "Nome não pode ser vazio.")]
     public string name { get; set; }
 
-    [Required(ErrorMessage = "E-mail não pode ser vazio")]
+    [Required(ErrorMessage = "E-mail não pode ser vazio.")]
     public string email { get; set; }
+
+    [Required(ErrorMessage = "Documento é obrigatório!")]
+    public string document { get; set; }
   }
 }

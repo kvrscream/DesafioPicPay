@@ -35,7 +35,7 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(_repository.GetById(id: id));
+        return Ok(await _repository.GetById(id: id));
       }
       catch(Exception ex)
       {
@@ -69,7 +69,7 @@ namespace estudoRepository.Controllers
       }
     }
 
-    [HttpDelete("id:int")]
+    [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(int id) 
     {
       try 

@@ -38,7 +38,8 @@ namespace estudoRepository.Repositories
 
     public async Task<List<AccountModel>> GetAll()
     {
-      return await _context.Accounts.ToListAsync();
+      return await _context.Accounts.
+        Include(u => u.userModel).ToListAsync();
     }
 
     public async Task<AccountModel> GetById(int id)
