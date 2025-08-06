@@ -3,6 +3,7 @@ using estudoRepository.dtos;
 using estudoRepository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using estudoRepository.Context;
+using Mapster;
 
 namespace estudoRepository.Repositories
 {
@@ -17,12 +18,7 @@ namespace estudoRepository.Repositories
 
     public async Task<AccountModel> Add(AccountDTO account)
     {
-        User user = await _context.Users.FirstOrDefaultAsync(f => f.Id == account.userId);
-        AccountModel accountModel = new AccountModel(){
-          balance = account.balance,
-          userModel = user,
-          canNegativeBalance = account.canNegativeBalance
-        };
+        AccountModel accountModel = account.Adapt<AccountModel>();
 
         await _context.Accounts.AddAsync(accountModel);
         await _context.SaveChangesAsync();
@@ -53,8 +49,7 @@ namespace estudoRepository.Repositories
         AccountModel actualAccount = await this.GetById(id: account.Id);
         if (actualAccount != null)
         {
-          actualAccount.balance = account.balance;
-          actualAccount.canNegativeBalance = account.canNegativeBalance;
+          actualAccount = account.Adapt<AccountModel>();
           await _context.SaveChangesAsync();
           return actualAccount;
         }

@@ -2,6 +2,7 @@ using estudoRepository.Context;
 using estudoRepository.dtos;
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 
 namespace estudoRepository.Repositories
@@ -28,12 +29,9 @@ namespace estudoRepository.Repositories
         }
 
         public async Task<User> AddUser(UserDTO user)
-        {   
-            User userModel = new User() {
-                name = user.name,
-                email = user.email,
-                document = user.document
-            };
+        {
+
+            User userModel = user.Adapt<User>();
 
             SelectUserType(user: userModel);
             await _context.Users.AddAsync(userModel);
