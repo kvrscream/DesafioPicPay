@@ -1,6 +1,7 @@
 # Paths
 /obj
 /bin
+/Migrations
 
 # Files
 app.db

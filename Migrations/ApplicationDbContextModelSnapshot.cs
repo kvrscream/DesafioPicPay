@@ -28,12 +28,12 @@ namespace estudoRepository.Migrations
                     b.Property<bool>("canNegativeBalance")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("userModelId")
+                    b.Property<int>("userId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("userModelId");
+                    b.HasIndex("userId");
 
                     b.ToTable("Accounts");
                 });
@@ -70,7 +70,7 @@ namespace estudoRepository.Migrations
                 {
                     b.HasOne("estudoRepository.Models.User", "userModel")
                         .WithMany()
-                        .HasForeignKey("userModelId")
+                        .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

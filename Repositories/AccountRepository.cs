@@ -18,16 +18,9 @@ namespace estudoRepository.Repositories
 
     public async Task<AccountModel> Add(AccountDTO account)
     {
-        User user = await _context.Users.FirstOrDefaultAsync(f => f.Id == account.userId);
-        // AccountModel accountModel = new AccountModel(){
-        //   balance = account.balance,
-        //   userModel = user,
-        //   canNegativeBalance = account.canNegativeBalance
-        // };
-
         AccountModel accountModel = account.Adapt<AccountModel>();
 
-            await _context.Accounts.AddAsync(accountModel);
+        await _context.Accounts.AddAsync(accountModel);
         await _context.SaveChangesAsync();
         return accountModel;
     }
@@ -57,8 +50,6 @@ namespace estudoRepository.Repositories
         if (actualAccount != null)
         {
           actualAccount = account.Adapt<AccountModel>();
-          //       actualAccount.balance = account.balance;
-          // actualAccount.canNegativeBalance = account.canNegativeBalance;
           await _context.SaveChangesAsync();
           return actualAccount;
         }
