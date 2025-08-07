@@ -1,4 +1,5 @@
 using estudoRepository.dtos;
+using estudoRepository.dtos.UserDTOs;
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +57,7 @@ namespace estudoRepository.Controllers
     }
 
     [HttpPatch]
-    public async Task<IActionResult> Update([FromBody] UserDTO user)
+    public async Task<IActionResult> Update([FromBody] UserUpdateDTO user)
     {
       try
       {

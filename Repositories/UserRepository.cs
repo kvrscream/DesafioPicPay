@@ -1,5 +1,6 @@
 using estudoRepository.Context;
 using estudoRepository.dtos;
+using estudoRepository.dtos.UserDTOs;
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
 using Mapster;
@@ -61,18 +62,15 @@ namespace estudoRepository.Repositories
             return await _context.Users.FirstOrDefaultAsync(f => f.Id == id);
         }
 
-        public async Task<User> UpdateUser(UserDTO user)
+        public async Task<User> UpdateUser(UserUpdateDTO user)
         { 
             User data = await this.GetById(user.Id);
             
             if (data != null)
             {
-              data.Id = user.Id;
-              data.name = user.name;
-              data.email = user.email;
-              
-              await _context.SaveChangesAsync();
-              return data;
+                data = user.Adapt<User>();
+                await _context.SaveChangesAsync();
+                return data;
             }
 
             return null;
