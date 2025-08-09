@@ -15,5 +15,6 @@ namespace estudoRepository.Models
 
     [Required(ErrorMessage = "Documento é obrigatório!")]
     public string document { get; set; }
+    public string Password { get; set; }
   }
 }

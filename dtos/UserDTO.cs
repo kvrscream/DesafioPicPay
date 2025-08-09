@@ -11,7 +11,7 @@ namespace estudoRepository.dtos
 
     [Required(ErrorMessage = "E-mail não pode ser vazio")]
     public string email { get; set; }
-    
     public string document { get; set; }
+    public string Password { get; set; }
   }
 }

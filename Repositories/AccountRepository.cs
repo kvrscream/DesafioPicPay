@@ -49,7 +49,7 @@ namespace estudoRepository.Repositories
         AccountModel actualAccount = await this.GetById(id: account.Id);
         if (actualAccount != null)
         {
-          actualAccount = account.Adapt<AccountModel>();
+          actualAccount = account.Adapt(actualAccount);
           await _context.SaveChangesAsync();
           return actualAccount;
         }
