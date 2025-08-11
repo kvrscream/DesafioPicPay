@@ -2,6 +2,8 @@ using estudoRepository.Context;
 using estudoRepository.dtos.TransferDTOs;
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
+using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace estudoRepository.Repositories;
 
@@ -13,13 +15,24 @@ public class TransferRepository : ITransferRepository
     _context = context;
   }
   
-  public Task<List<TransferModel>> MyTransfers(int Payee)
+  public async Task<List<TransferModel>> MyTransfers(int Payee)
   {
-    throw new NotImplementedException();
+    return await _context.Transfers.Where(w => w.Payee == Payee).ToListAsync();
   }
 
-  public Task<TransferModel> SendTransfer(TransferDTO transfer)
+  public async Task<TransferModel> SendTransfer(TransferDTO transfer)
   {
-    throw new NotImplementedException();
+    try
+    {
+      TransferModel transferModel = transfer.Adapt<TransferModel>();
+      await _context.Transfers.AddAsync(transferModel);
+      await _context.SaveChangesAsync();
+      
+      return transferModel;
+    }
+    catch (Exception ex)
+    {
+      throw ex;
+    }
   }
 }
