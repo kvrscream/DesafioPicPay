@@ -12,6 +12,12 @@ public class TransferServices
   private readonly TransferRepository _transfer;
   private readonly AccountRepository _account;
 
+  public TransferServices(TransferRepository transfer, AccountRepository account)
+  {
+    _transfer = transfer;
+    _account = account;
+  }
+
   public async Task<TransferModel> CreateTransfer(TransferDTO transfer)
   {
     try

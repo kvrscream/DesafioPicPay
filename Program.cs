@@ -1,6 +1,7 @@
 using estudoRepository.Context;
 using estudoRepository.Interfaces;
 using estudoRepository.Repositories;
+using estudoRepository.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
