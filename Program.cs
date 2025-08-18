@@ -28,6 +28,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ITransferRepository, TransferRepository>();
 
+builder.Services.AddScoped<TransferServices>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

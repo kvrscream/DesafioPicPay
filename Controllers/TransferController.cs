@@ -12,12 +12,12 @@ namespace estudoRepository.Controllers;
 [ApiController]
 public class TransferController : Controller
 {
-  private readonly TransferRepository _transfer;
-  private readonly AccountRepository _account;
-  public TransferController(TransferRepository transfer, AccountRepository account)
+  private readonly ITransferRepository _transfer;
+  private readonly TransferServices _services;
+  public TransferController(TransferServices services, ITransferRepository transfer)
   {
+    _services = services;
     _transfer = transfer;
-    _account = account;
   }
 
   [HttpGet("{id}")]
@@ -39,9 +39,8 @@ public class TransferController : Controller
   {
     try
     {
-      TransferServices services = new TransferServices(account: _account, transfer: _transfer);
       TransferModel transferModel = 
-        await services.CreateTransfer(transfer: transfer);
+        await _services.CreateTransfer(transfer: transfer);
       return Ok(transferModel);
     }
     catch (Exception ex)

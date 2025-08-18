@@ -1,5 +1,6 @@
 using estudoRepository.dtos;
 using estudoRepository.dtos.TransferDTOs;
+using estudoRepository.Interfaces;
 using estudoRepository.Models;
 using estudoRepository.Repositories;
 using Mapster;
@@ -9,10 +10,10 @@ namespace estudoRepository.Services;
 
 public class TransferServices
 {
-  private readonly TransferRepository _transfer;
-  private readonly AccountRepository _account;
+  private readonly ITransferRepository _transfer;
+  private readonly IAccountRepository _account;
 
-  public TransferServices(TransferRepository transfer, AccountRepository account)
+  public TransferServices(ITransferRepository transfer, IAccountRepository account)
   {
     _transfer = transfer;
     _account = account;
@@ -24,6 +25,7 @@ public class TransferServices
     {
       AccountModel payer = await _account.GetById(id: transfer.Payer); //Busca beneficiário pagador
       AccountModel payee = await _account.GetById(id: transfer.Payee); //Busca beneficiário destino
+
       if (payer.userModel!.userType.Equals("PJ"))
       {
         throw new Exception("Usuários do tipo Pessoa Jurídica não podem realizar transferências!");
@@ -34,19 +36,19 @@ public class TransferServices
         throw new Exception("Saldo insulficiente!");
       }
 
-      payer.balance = payer.balance - transfer.Value;
-      AccountDTO payerDTO = payer.Adapt<AccountDTO>();
-      payee.balance = payee.balance + transfer.Value;
-      AccountDTO payeeDTO = payee.Adapt<AccountDTO>();
+      // payer.balance = payer.balance - transfer.Value;
+      // AccountDTO payerDTO = payer.Adapt<AccountDTO>();
+      // payee.balance = payee.balance + transfer.Value;
+      // AccountDTO payeeDTO = payee.Adapt<AccountDTO>();
 
-      await Task.WhenAll(
-        [
-          _account.Update(payeeDTO),
-          _account.Update(payerDTO)
-        ]
-      );
+      // await Task.WhenAll(
+      //   [
+      //     _account.Update(payeeDTO),
+      //     _account.Update(payerDTO)
+      //   ]
+      // );
 
-      return await _transfer.SendTransfer(transfer: transfer);
+      return await _transfer.SendTransfer(transfer: transfer, payee: payee, payer: payer);
 
     }
     catch (Exception ex)

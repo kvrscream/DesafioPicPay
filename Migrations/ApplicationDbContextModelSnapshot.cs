@@ -51,13 +51,7 @@ namespace estudoRepository.Migrations
                     b.Property<int>("Payee")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("PayeeUserId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("Payer")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PayerUserId")
                         .HasColumnType("INTEGER");
 
                     b.Property<double>("Value")
@@ -65,9 +59,9 @@ namespace estudoRepository.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PayeeUserId");
+                    b.HasIndex("Payee");
 
-                    b.HasIndex("PayerUserId");
+                    b.HasIndex("Payer");
 
                     b.ToTable("Transfers");
                 });
@@ -117,15 +111,15 @@ namespace estudoRepository.Migrations
 
             modelBuilder.Entity("estudoRepository.Models.TransferModel", b =>
                 {
-                    b.HasOne("estudoRepository.Models.User", "PayeeUser")
+                    b.HasOne("estudoRepository.Models.AccountModel", "PayeeUser")
                         .WithMany()
-                        .HasForeignKey("PayeeUserId")
+                        .HasForeignKey("Payee")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("estudoRepository.Models.User", "PayerUser")
+                    b.HasOne("estudoRepository.Models.AccountModel", "PayerUser")
                         .WithMany()
-                        .HasForeignKey("PayerUserId")
+                        .HasForeignKey("Payer")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
