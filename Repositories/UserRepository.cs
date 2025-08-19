@@ -68,7 +68,7 @@ namespace estudoRepository.Repositories
             
             if (data != null)
             {
-                data = user.Adapt<User>();
+                data = user.Adapt(data);
                 await _context.SaveChangesAsync();
                 return data;
             }

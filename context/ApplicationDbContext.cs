@@ -12,5 +12,6 @@ namespace estudoRepository.Context
     // Dbsets heere
     public DbSet<User> Users { get; set; }
     public DbSet<AccountModel> Accounts { get; set; }
+    public DbSet<TransferModel> Transfers { get; set; }
   }
 }

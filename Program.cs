@@ -1,6 +1,7 @@
 using estudoRepository.Context;
 using estudoRepository.Interfaces;
 using estudoRepository.Repositories;
+using estudoRepository.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<ITransferRepository, TransferRepository>();
+
+builder.Services.AddScoped<TransferServices>();
 
 var app = builder.Build();
 
