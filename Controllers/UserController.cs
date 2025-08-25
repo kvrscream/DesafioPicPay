@@ -2,6 +2,7 @@ using estudoRepository.dtos;
 using estudoRepository.dtos.UserDTOs;
 using estudoRepository.Interfaces;
 using estudoRepository.Models;
+using estudoRepository.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace estudoRepository.Controllers
@@ -10,11 +11,11 @@ namespace estudoRepository.Controllers
   [ApiController]
   public class UserController : Controller
   {
-    private readonly IUserRepository _repository;
+    private readonly UserServices _services;
 
-    public UserController(IUserRepository repository)
+    public UserController(UserServices services)
     {
-      _repository = repository;
+      _services = services;
     }
 
     [HttpGet]
@@ -22,8 +23,8 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(await _repository.GetAll());
-      } 
+        return Ok(await _services.GetAll());
+      }
       catch (Exception ex)
       {
         return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -35,8 +36,8 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(await _repository.GetById(id: id));
-      } 
+        return Ok(await _services.GetById(id: id));
+      }
       catch (Exception ex)
       {
         return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
@@ -48,7 +49,7 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(await _repository.AddUser(user));
+        return Ok(await _services.AddUser(user));
       }
       catch (Exception ex)
       {
@@ -61,7 +62,7 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(await _repository.UpdateUser(user));
+        return Ok(await _services.UpdateUser(user));
       }
       catch (Exception ex)
       {
@@ -74,8 +75,8 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(await _repository.DeleteUser(id: id));
-      } 
+        return Ok(await _services.DeleteUser(id: id));
+      }
       catch (Exception ex)
       {
         return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);

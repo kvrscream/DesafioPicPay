@@ -3,6 +3,7 @@ using estudoRepository.Models;
 using estudoRepository.dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using estudoRepository.Services;
 
 namespace estudoRepository.Controllers
 {
@@ -10,11 +11,11 @@ namespace estudoRepository.Controllers
   [ApiController]
   public class AccountController : Controller
   {
-    private readonly IAccountRepository _repository;
+    private readonly AccountServices _service;
 
-    public AccountController(IAccountRepository repository)
+    public AccountController(AccountServices service)
     {
-      _repository = repository;
+      _service = service;
     }
 
     [HttpGet]
@@ -22,9 +23,9 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(await _repository.GetAll());
+        return Ok(await _service.GetAll());
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
       }
@@ -35,20 +36,20 @@ namespace estudoRepository.Controllers
     {
       try
       {
-        return Ok(await _repository.GetById(id: id));
+        return Ok(await _service.GetById(id: id));
       }
-      catch(Exception ex)
+      catch (Exception ex)
       {
         return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
       }
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(AccountDTO account) 
+    public async Task<IActionResult> Add(AccountDTO account)
     {
-      try 
+      try
       {
-        return Ok(await _repository.Add(account));
+        return Ok(await _service.Add(account));
       }
       catch (Exception ex)
       {
@@ -57,11 +58,11 @@ namespace estudoRepository.Controllers
     }
 
     [HttpPatch]
-    public async Task<IActionResult> Update(AccountDTO account) 
+    public async Task<IActionResult> Update(AccountDTO account)
     {
-      try 
+      try
       {
-        return Ok(await _repository.Update(account));
+        return Ok(await _service.Update(account));
       }
       catch (Exception ex)
       {
@@ -70,11 +71,11 @@ namespace estudoRepository.Controllers
     }
 
     [HttpDelete("{id:int}")]
-    public async Task<IActionResult> Delete(int id) 
+    public async Task<IActionResult> Delete(int id)
     {
-      try 
+      try
       {
-        return Ok(await _repository.Delete(id));
+        return Ok(await _service.Delete(id));
       }
       catch (Exception ex)
       {
