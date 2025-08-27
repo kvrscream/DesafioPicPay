@@ -28,9 +28,9 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ITransferRepository, TransferRepository>();
 
-builder.Services.AddScoped<TransferServices>();
-builder.Services.AddScoped<AccountServices>();
-builder.Services.AddScoped<UserServices>();
+builder.Services.AddScoped<ITransferServices, TransferServices>();
+builder.Services.AddScoped<IAccountServices, AccountServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
 
 var app = builder.Build();
 

@@ -6,12 +6,12 @@ using estudoRepository.Repositories;
 
 namespace estudoRepository.Services;
 
-public class AccountServices : IAccountRepository
+public class AccountServices : IAccountServices
 {
 
-  private readonly AccountRepository _repository;
+  private readonly IAccountRepository _repository;
 
-  public AccountServices(AccountRepository repository)
+  public AccountServices(IAccountRepository repository)
   {
     _repository = repository;
   }

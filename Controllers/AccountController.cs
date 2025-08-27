@@ -11,9 +11,9 @@ namespace estudoRepository.Controllers
   [ApiController]
   public class AccountController : Controller
   {
-    private readonly AccountServices _service;
+    private readonly IAccountServices _service;
 
-    public AccountController(AccountServices service)
+    public AccountController(IAccountServices service)
     {
       _service = service;
     }

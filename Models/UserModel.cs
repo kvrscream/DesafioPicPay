@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
 namespace estudoRepository.Models
 {
+  [Table("Users")]
   public class User : UserAbstract
   {
     public int Id { get; set; }

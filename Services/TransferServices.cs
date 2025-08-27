@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace estudoRepository.Services;
 
-public class TransferServices
+public class TransferServices : ITransferServices
 {
   private readonly ITransferRepository _transfer;
   private readonly IAccountRepository _account;
@@ -36,24 +36,17 @@ public class TransferServices
         throw new Exception("Saldo insulficiente!");
       }
 
-      // payer.balance = payer.balance - transfer.Value;
-      // AccountDTO payerDTO = payer.Adapt<AccountDTO>();
-      // payee.balance = payee.balance + transfer.Value;
-      // AccountDTO payeeDTO = payee.Adapt<AccountDTO>();
-
-      // await Task.WhenAll(
-      //   [
-      //     _account.Update(payeeDTO),
-      //     _account.Update(payerDTO)
-      //   ]
-      // );
-
       return await _transfer.SendTransfer(transfer: transfer, payee: payee, payer: payer);
-
     }
     catch (Exception ex)
     {
       throw ex;
     }
   }
+
+  public async Task<List<TransferModel>> MyTransfers(int Payee)
+  {
+    return await _transfer.MyTransfers(Payee: Payee);
+  }
+
 }
