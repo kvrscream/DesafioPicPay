@@ -5,7 +5,7 @@ using estudoRepository.Models;
 
 namespace estudoRepository.Services;
 
-public class UserServices : IUserRepository
+public class UserServices : IUserServices
 {
   private readonly IUserRepository _repository;
 

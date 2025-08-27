@@ -11,9 +11,9 @@ namespace estudoRepository.Controllers
   [ApiController]
   public class UserController : Controller
   {
-    private readonly UserServices _services;
+    private readonly IUserServices _services;
 
-    public UserController(UserServices services)
+    public UserController(IUserServices services)
     {
       _services = services;
     }
