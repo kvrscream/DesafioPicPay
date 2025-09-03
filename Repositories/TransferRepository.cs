@@ -15,7 +15,7 @@ public class TransferRepository : ITransferRepository
   {
     _context = context;
   }
-  
+
   public async Task<List<TransferModel>> MyTransfers(int Payee)
   {
     return await _context.Transfers
@@ -30,9 +30,6 @@ public class TransferRepository : ITransferRepository
     {
       payer.balance = payer.balance - transfer.Value;
       payee.balance = payee.balance + transfer.Value;
-
-      // AccountDTO payerDTO = payer.Adapt<AccountDTO>();
-      // AccountDTO payeeDTO = payee.Adapt<AccountDTO>();
 
       TransferModel transferModel = transfer.Adapt<TransferModel>();
       await _context.Transfers.AddAsync(transferModel);

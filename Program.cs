@@ -24,13 +24,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddHttpClient();
+
+//Repositoies
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<ITransferRepository, TransferRepository>();
-
+//Services
 builder.Services.AddScoped<ITransferServices, TransferServices>();
 builder.Services.AddScoped<IAccountServices, AccountServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
 
 var app = builder.Build();
 

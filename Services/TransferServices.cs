@@ -13,16 +13,26 @@ public class TransferServices : ITransferServices
   private readonly ITransferRepository _transfer;
   private readonly IAccountRepository _account;
 
-  public TransferServices(ITransferRepository transfer, IAccountRepository account)
+  private readonly IAuthorizeService _authorize;
+
+  public TransferServices(ITransferRepository transfer, IAccountRepository account, IAuthorizeService authorize)
   {
     _transfer = transfer;
     _account = account;
+    _authorize = authorize;
   }
 
   public async Task<TransferModel> CreateTransfer(TransferDTO transfer)
   {
     try
     {
+      bool isAuthorized = await _authorize.AuthorizeTransaction();
+
+      if (!isAuthorized)
+      {
+        throw new Exception("Usuário não autorizado!");
+      }
+
       AccountModel payer = await _account.GetById(id: transfer.Payer); //Busca beneficiário pagador
       AccountModel payee = await _account.GetById(id: transfer.Payee); //Busca beneficiário destino
 
