@@ -1,12 +1,13 @@
+using System.Net;
 using estudoRepository.Context;
 using estudoRepository.Interfaces;
 using estudoRepository.Repositories;
 using estudoRepository.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Web;
+using Moq;
+using Moq.Protected;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,32 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddHttpClient();
+var handleMock = new Mock<HttpMessageHandler>();
+handleMock
+  .Protected()
+  .Setup<Task<HttpResponseMessage>>(
+    "SendAsync",
+    ItExpr.IsAny<HttpRequestMessage>(),
+    ItExpr.IsAny<CancellationToken>()
+  )
+  .ReturnsAsync(new HttpResponseMessage
+  {
+      StatusCode = HttpStatusCode.OK,
+      Content = new StringContent("{\"authorized\": true}")
+  });
+
+if (builder.Configuration.GetValue<bool>("UseMock"))
+{
+    Console.WriteLine("Mock");
+    builder.Services.AddHttpClient<IAuthorizeService, AuthorizeService>()
+        .ConfigurePrimaryHttpMessageHandler(
+            () => handleMock.Object
+        );
+}
+else
+{
+    builder.Services.AddHttpClient();
+}
 
 //Repositoies
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -35,6 +61,7 @@ builder.Services.AddScoped<ITransferServices, TransferServices>();
 builder.Services.AddScoped<IAccountServices, AccountServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
+
 
 var app = builder.Build();
 

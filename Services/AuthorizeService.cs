@@ -11,12 +11,11 @@ public class AuthorizeService : IAuthorizeService
     _httpClient = httpClient;
   }
 
-  private readonly string URL = "https://util.devi.tools/api/v2/authorize";
+  private readonly string URL = "http ://qualquer-url .com"; //"https://util.devi.tools/api/v2/authorize";
   public async Task<bool> AuthorizeTransaction()
   {
-    // Precisamos mocar o retorno aqui
-    // Link da picpay sempre volta false
-    using var response = await _httpClient.CreateClient().GetAsync(URL);
+    var client = _httpClient.CreateClient("AuthorizeClient");
+    using var response = await client.GetAsync(URL);
     string output = await response.Content.ReadAsStringAsync();
     Console.WriteLine(output);
     return true;
