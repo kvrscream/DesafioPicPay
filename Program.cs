@@ -43,13 +43,19 @@ if (builder.Configuration.GetValue<bool>("UseMock"))
 {
     Console.WriteLine("Mock");
     builder.Services.AddHttpClient<IAuthorizeService, AuthorizeService>()
-        .ConfigurePrimaryHttpMessageHandler(
-            () => handleMock.Object
-        );
+        .ConfigureHttpClient(client =>
+        {
+            client.BaseAddress = new Uri("http://mocked-url.com");
+        })
+        .ConfigurePrimaryHttpMessageHandler(() => handleMock.Object);
 }
 else
 {
-    builder.Services.AddHttpClient();
+    builder.Services.AddHttpClient<IAuthorizeService, AuthorizeService>()
+        .ConfigureHttpClient(client =>
+        {
+            client.BaseAddress = new Uri("https://util.devi.tools");
+        });
 }
 
 //Repositoies
@@ -60,7 +66,7 @@ builder.Services.AddScoped<ITransferRepository, TransferRepository>();
 builder.Services.AddScoped<ITransferServices, TransferServices>();
 builder.Services.AddScoped<IAccountServices, AccountServices>();
 builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
+// builder.Services.AddScoped<IAuthorizeService, AuthorizeService>();
 
 
 var app = builder.Build();
