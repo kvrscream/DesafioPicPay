@@ -41,8 +41,14 @@ handleMock
 
 if (builder.Configuration.GetValue<bool>("UseMock"))
 {
-    Console.WriteLine("Mock");
     builder.Services.AddHttpClient<IAuthorizeService, AuthorizeService>()
+        .ConfigureHttpClient(client =>
+        {
+            client.BaseAddress = new Uri("http://mocked-url.com");
+        })
+        .ConfigurePrimaryHttpMessageHandler(() => handleMock.Object);
+
+    builder.Services.AddHttpClient<INotifyService, NotifyService>()
         .ConfigureHttpClient(client =>
         {
             client.BaseAddress = new Uri("http://mocked-url.com");
