@@ -14,12 +14,15 @@ public class TransferServices : ITransferServices
   private readonly IAccountRepository _account;
 
   private readonly IAuthorizeService _authorize;
+  private readonly INotifyService _notifyService;
 
-  public TransferServices(ITransferRepository transfer, IAccountRepository account, IAuthorizeService authorize)
+  public TransferServices(ITransferRepository transfer, IAccountRepository account,
+    IAuthorizeService authorize, INotifyService notifyService)
   {
     _transfer = transfer;
     _account = account;
     _authorize = authorize;
+    _notifyService = notifyService;
   }
 
   public async Task<TransferModel> CreateTransfer(TransferDTO transfer)
@@ -45,7 +48,7 @@ public class TransferServices : ITransferServices
       {
         throw new Exception("Saldo insulficiente!");
       }
-
+      await _notifyService.Notify(email: payee.userModel.email);
       return await _transfer.SendTransfer(transfer: transfer, payee: payee, payer: payer);
     }
     catch (Exception ex)
